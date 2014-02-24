@@ -1,2 +1,4 @@
-== README ==
-Sample App for serving static pages.
+Ian Shefferman's Sample App
+===========================
+
+Sample Ruby on Rails app.
