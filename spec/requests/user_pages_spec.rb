@@ -33,21 +33,18 @@ describe "User pages" do
       describe "after submission" do
         before { click_button submit }
 
-        errors =
-          [
+        it { should have_title('Sign up') }
+        it { should have_content('error') }
+
+        errors = [
            "Name can't be blank",
            "Email can't be blank",
            "Email is invalid",
            "Password can't be blank",
            "Password is too short (minimum is 6 characters)"
-          ]
+        ]
 
-        it { should have_title('Sign up') }
-        it { should have_content('error') }
-
-        errors.each do |error|
-          it { should have_content(error) }
-        end
+        it { should have_errors(errors) }
       end
     end
 
@@ -67,17 +64,9 @@ describe "User pages" do
         before { click_button submit }
         let(:user) { User.find_by(email: 'user@example.com') }
 
-        it { should have_title(user.name) }
-        it { should have_selector('div.alert.alert-success', text: 'Welcome') }
-      end
-
-      describe "after saving the user" do
-        before { click_button submit }
-        let(:user) { User.find_by(email: 'user@example.com') }
-
         it { should have_link('Sign out') }
         it { should have_title(user.name) }
-        it { should have_selector('div.alert.alert-success', text: 'Welcome') }
+        it { should have_success_message('Welcome') }
       end
     end
   end
