@@ -29,7 +29,7 @@ describe "Authentication" do
     describe "with valid information" do
       let(:user) { FactoryGirl.create(:user) }
 
-      before { valid_signin(user) }
+      before { sign_in(user) }
 
       it { should have_title(user.name) }
       it { should have_link('Users',       href: users_path) }
@@ -79,9 +79,7 @@ describe "Authentication" do
       describe "when attempting to visit a protected page" do
         before do
           visit edit_user_path(user)
-          fill_in "Email",    with: user.email
-          fill_in "Password", with: user.password
-          click_button "Sign in"
+          sign_in user
         end
 
         describe "after signing in" do
