@@ -51,6 +51,15 @@ describe "Authentication" do
       let(:user) { FactoryGirl.create(:user) }
 
       describe "in the Users controller" do
+
+        describe "visiting the root path" do
+          before { visit root_url }
+
+          it { should_not have_link('Profile',     href: user_path(user)) }
+          it { should_not have_link('Settings',    href: edit_user_path(user)) }
+          it { should_not have_link('Sign out',    href: signout_path) }
+        end
+
         describe "visiting the user index" do
           before { visit users_path }
           it { should have_title('Sign in') }
