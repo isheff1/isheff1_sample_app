@@ -38,6 +38,20 @@ describe "Authentication" do
       it { should have_link('Sign out',    href: signout_path) }
       it { should_not have_link('Sign in', href: signin_path) }
 
+      describe "creating an account" do
+        before { sign_in(user, no_capybara: true) }
+
+        describe "visiting signup page" do
+          before { get new_user_path }
+          specify { expect(response).to redirect_to(root_url) }
+        end
+
+        describe "creating new account" do
+          before { post users_path }
+          specify { expect(response).to redirect_to(root_url) }
+        end
+      end
+
       describe "followed by signout" do
         before { click_link "Sign out" }
         it { should have_link('Sign in') }
