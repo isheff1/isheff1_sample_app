@@ -49,6 +49,8 @@ describe "Micropost pages" do
       visit root_path
     end
 
+    after { Micropost.delete_all }
+
     it { should have_selector('div.pagination') }
 
     it "should list each micropost" do
