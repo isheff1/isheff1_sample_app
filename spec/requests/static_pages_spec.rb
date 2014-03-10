@@ -46,6 +46,31 @@ describe "Static pages" do
           expect(page).to have_selector("li##{item.id}", text: item.content)
         end
       end
+
+      describe "micropost count" do
+        describe "one micropost" do
+          let(:user1) { FactoryGirl.create(:user) }
+          let!(:m1) { FactoryGirl.create(:micropost, user: user1, content: "Foo") }
+
+          before do
+            sign_in user1
+            visit root_path
+          end
+          it { should have_selector('#micropost-count', "#{user1.microposts.count} micropost") }
+        end
+
+        describe "two microposts" do
+          let(:user2) { FactoryGirl.create(:user) }
+          let!(:m1) { FactoryGirl.create(:micropost, user: user2, content: "Foo") }
+          let!(:m2) { FactoryGirl.create(:micropost, user: user2, content: "Bar") }
+
+          before do
+            sign_in user2
+            visit root_path
+          end
+          it { should have_selector('#micropost-count', "#{user2.microposts.count} microposts") }
+        end
+      end
     end
   end
 
